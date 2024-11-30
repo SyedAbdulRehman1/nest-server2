@@ -12,85 +12,101 @@ export declare class ChaptersService {
         position: number;
     }): Promise<{
         id: string;
-        title: string;
-        description: string;
-        videoUrl: string;
-        position: number;
-        isPublished: boolean;
-        isFree: boolean;
-        courseId: string;
         createdAt: Date;
         updatedAt: Date;
+        title: string;
+        description: string | null;
+        isPublished: boolean;
+        position: number;
+        videoUrl: string | null;
+        isFree: boolean;
+        courseId: string;
     }>;
     getChapterWithCompletion(courseId: string, chapterId: string): Promise<{
         chapter: {
             muxData: {
                 id: string;
                 assetId: string;
-                playbackId: string;
+                playbackId: string | null;
                 chapterId: string;
-            };
+            } | null;
         } & {
             id: string;
-            title: string;
-            description: string;
-            videoUrl: string;
-            position: number;
-            isPublished: boolean;
-            isFree: boolean;
-            courseId: string;
             createdAt: Date;
             updatedAt: Date;
+            title: string;
+            description: string | null;
+            isPublished: boolean;
+            position: number;
+            videoUrl: string | null;
+            isFree: boolean;
+            courseId: string;
         };
         isComplete: boolean;
         completionText: string;
     }>;
     updateChapter(courseId: string, chapterId: string, updateChapterDto: UpdateChapterDto, userId: string): Promise<{
         id: string;
-        title: string;
-        description: string;
-        videoUrl: string;
-        position: number;
-        isPublished: boolean;
-        isFree: boolean;
-        courseId: string;
         createdAt: Date;
         updatedAt: Date;
+        title: string;
+        description: string | null;
+        isPublished: boolean;
+        position: number;
+        videoUrl: string | null;
+        isFree: boolean;
+        courseId: string;
     }>;
     getChapterData(userId: string, courseId: string, chapterId: string): Promise<{
         chapter: {
             id: string;
-            title: string;
-            description: string;
-            videoUrl: string;
-            position: number;
-            isPublished: boolean;
-            isFree: boolean;
-            courseId: string;
             createdAt: Date;
             updatedAt: Date;
+            title: string;
+            description: string | null;
+            isPublished: boolean;
+            position: number;
+            videoUrl: string | null;
+            isFree: boolean;
+            courseId: string;
         };
         course: {
-            price: number;
+            price: number | null;
         };
-        muxData: any;
-        attachments: any[];
-        nextChapter: any;
+        muxData: {
+            id: string;
+            assetId: string;
+            playbackId: string | null;
+            chapterId: string;
+        } | null;
+        attachments: any;
+        nextChapter: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            title: string;
+            description: string | null;
+            isPublished: boolean;
+            position: number;
+            videoUrl: string | null;
+            isFree: boolean;
+            courseId: string;
+        } | null;
         userProgress: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
-            chapterId: string;
             isCompleted: boolean;
-        };
+            chapterId: string;
+        } | null;
         purchase: {
             id: string;
-            courseId: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
-        };
+            courseId: string;
+        } | null;
     }>;
     private getSessionFromRequest;
 }

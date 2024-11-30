@@ -10,16 +10,16 @@ export declare class AuthService {
         message: string;
         status: string;
         user: {
-            id: string;
-            name: string;
             email: string;
-            password: string;
-            refreshToken: string;
+            password: string | null;
+            id: string;
+            name: string | null;
+            refreshToken: string | null;
             userType: import(".prisma/client").$Enums.UserType;
-            emailVerified: boolean;
-            image: string;
-            resetToken: string;
-            resetTokenExpiry: Date;
+            emailVerified: boolean | null;
+            image: string | null;
+            resetToken: string | null;
+            resetTokenExpiry: Date | null;
             role: import(".prisma/client").$Enums.UserType;
             createdAt: Date;
             updatedAt: Date;

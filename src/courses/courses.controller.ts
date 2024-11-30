@@ -28,6 +28,7 @@ import { extname } from 'path';
 import * as fs from 'fs';
 import { ChaptersService } from './chapters/chapters.service';
 import { UpdateChapterDto } from './dto/update-chapter.dto';
+import { User } from 'src/auth/interface/User';
 
 //   import { SessionGuard } from '../auth/session.guard'; // Custom guard for session handling
 //   import { CreateCourseDto } from './dto/create-course.dto';
@@ -45,7 +46,10 @@ export class CoursesController {
   @Get()
   async getCourses(@Req() req: Request) {
     try {
-      const userId = req.user?.id;
+      // const userId = req.user?.id;
+      const user = req.user as User;
+      const userId = user.id;
+
       if (!userId) {
         throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
       }
@@ -67,8 +71,11 @@ export class CoursesController {
   ) {
     // console.log(req, 'reqqq');
     try {
-      const userId = req.user?.id;
-      const isTeacher = req.user?.userType === 'TEACHER';
+      // const userId = req.user?.id;
+      const user = req.user as User;
+      const userId = user.id;
+
+      const isTeacher = user?.userType === 'TEACHER';
 
       if (!userId || !isTeacher) {
         throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
@@ -79,7 +86,7 @@ export class CoursesController {
         createCourseDto,
       );
       return course;
-    } catch (error) {
+    } catch (error: any) {
       console.error('[CREATE COURSE]', error);
       if (error instanceof PrismaClientValidationError) {
         console.error('[CREATE COURSE - Prisma Validation Error]', error);
@@ -112,7 +119,10 @@ export class CoursesController {
     @Req() req: Request,
   ) {
     try {
-      const userId = req.user?.id;
+      // const userId = req.user?.id;
+      const user = req.user as User;
+      const userId = user.id;
+
       if (!userId) {
         throw new HttpException(
           'Unauthorized User ID is required',
@@ -143,7 +153,9 @@ export class CoursesController {
     @Param('courseId') courseId: string,
     @Req() req: Request,
   ) {
-    const userId = req.user['id']; // Extract userId from the request (assuming user is set in the request)
+    // const userId = req.user['id']; // Extract userId from the request (assuming user is set in the request)
+    const user = req.user as User;
+    const userId = user.id;
 
     const course = await this.coursesService.getCourseById(courseId, userId);
 
@@ -155,7 +167,9 @@ export class CoursesController {
     @Param('courseId') courseId: string,
     @Req() req: Request,
   ) {
-    const userId = req.user?.id; // Get userId from JWT token (assuming JWT is being used)
+    // const userId = req.user?.id; // Get userId from JWT token (assuming JWT is being used)
+    const user = req.user as User;
+    const userId = user.id;
 
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
@@ -178,7 +192,9 @@ export class CoursesController {
     @Body() updateData: any,
     @Req() req: Request,
   ) {
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
 
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
@@ -251,7 +267,9 @@ export class CoursesController {
     @UploadedFile() file: Express.Multer.File,
     @Req() req: Request,
   ) {
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
 
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
@@ -290,7 +308,10 @@ export class CoursesController {
     @Body() body: { title: string },
     @Req() req: Request,
   ) {
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
+
     if (!userId) {
       throw new HttpException(
         'Unauthorized User ID is required',
@@ -328,7 +349,10 @@ export class CoursesController {
   ) {
     try {
       // console.log(req, 'reee');
-      const userId = req.user?.id;
+      // const userId = req.user?.id;
+      const user = req.user as User;
+      const userId = user.id;
+
       if (!userId) {
         throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
       }
@@ -352,7 +376,10 @@ export class CoursesController {
     @Req() req: Request,
   ) {
     console.log(req, 'ererer');
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
+
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
@@ -365,7 +392,10 @@ export class CoursesController {
     @Param('chapterId') chapterId: string,
     @Req() req: Request,
   ) {
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
+
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
@@ -387,7 +417,10 @@ export class CoursesController {
 
   @Patch(':id/publish')
   async publishCourse(@Param('id') id: string, @Req() req: Request) {
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
+
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
@@ -404,7 +437,10 @@ export class CoursesController {
   }
   @Patch(':id/unpublish')
   async unpublishCourse(@Param('id') courseId: string, @Req() req: Request) {
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
+
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
@@ -426,7 +462,10 @@ export class CoursesController {
     @Body('list') list: { id: string; position: number }[],
     @Req() req: Request,
   ) {
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
+
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }

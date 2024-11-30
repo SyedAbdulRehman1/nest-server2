@@ -37,7 +37,7 @@ export class CoursesService {
           title,
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('[CREATE COURSE]', error);
       throw new HttpException(
         {

@@ -1,9 +1,32 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
@@ -17,11 +40,11 @@ const common_1 = require("@nestjs/common");
 const courses_service_1 = require("./courses.service");
 const multer_1 = require("multer");
 const create_course_dto_1 = require("./dto/create-course.dto");
-const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const jwt_auth_guard_1 = require("src/auth/guards/jwt-auth.guard");
 const library_1 = require("@prisma/client/runtime/library");
 const multer_2 = require("@nestjs/platform-express/multer");
 const path_1 = require("path");
-const fs = require("fs");
+const fs = __importStar(require("fs"));
 const chapters_service_1 = require("./chapters/chapters.service");
 const update_chapter_dto_1 = require("./dto/update-chapter.dto");
 let CoursesController = class CoursesController {
@@ -30,9 +53,9 @@ let CoursesController = class CoursesController {
         this.chaptersService = chaptersService;
     }
     async getCourses(req) {
-        var _a;
         try {
-            const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+            const user = req.user;
+            const userId = user.id;
             if (!userId) {
                 throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
             }
@@ -45,10 +68,10 @@ let CoursesController = class CoursesController {
         }
     }
     async createCourse(req, createCourseDto) {
-        var _a, _b;
         try {
-            const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
-            const isTeacher = ((_b = req.user) === null || _b === void 0 ? void 0 : _b.userType) === 'TEACHER';
+            const user = req.user;
+            const userId = user.id;
+            const isTeacher = (user === null || user === void 0 ? void 0 : user.userType) === 'TEACHER';
             if (!userId || !isTeacher) {
                 throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
             }
@@ -74,9 +97,9 @@ let CoursesController = class CoursesController {
         }
     }
     async getCourseDetails(courseId, userId, req) {
-        var _a;
         try {
-            const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+            const user = req.user;
+            const userId = user.id;
             if (!userId) {
                 throw new common_1.HttpException('Unauthorized User ID is required', common_1.HttpStatus.UNAUTHORIZED);
             }
@@ -92,13 +115,14 @@ let CoursesController = class CoursesController {
         }
     }
     async getUniqueCourse(courseId, req) {
-        const userId = req.user['id'];
+        const user = req.user;
+        const userId = user.id;
         const course = await this.coursesService.getCourseById(courseId, userId);
         return { status: 'success', data: course };
     }
     async getCourseDetailsWithProgress(courseId, req) {
-        var _a;
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const user = req.user;
+        const userId = user.id;
         if (!userId) {
             throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
         }
@@ -109,8 +133,8 @@ let CoursesController = class CoursesController {
         return course;
     }
     async updateCourse(courseId, updateData, req) {
-        var _a;
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const user = req.user;
+        const userId = user.id;
         if (!userId) {
             throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
         }
@@ -128,8 +152,8 @@ let CoursesController = class CoursesController {
         }
     }
     async uploadFile(courseId, file, req) {
-        var _a;
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const user = req.user;
+        const userId = user.id;
         if (!userId) {
             throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
         }
@@ -152,8 +176,8 @@ let CoursesController = class CoursesController {
         }
     }
     async createChapter(courseId, body, req) {
-        var _a;
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const user = req.user;
+        const userId = user.id;
         if (!userId) {
             throw new common_1.HttpException('Unauthorized User ID is required', common_1.HttpStatus.UNAUTHORIZED);
         }
@@ -170,9 +194,9 @@ let CoursesController = class CoursesController {
         return chapter;
     }
     async updateChapter(courseId, chapterId, updateChapterDto, req) {
-        var _a;
         try {
-            const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+            const user = req.user;
+            const userId = user.id;
             if (!userId) {
                 throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
             }
@@ -185,17 +209,17 @@ let CoursesController = class CoursesController {
         }
     }
     async publishChapter(courseId, chapterId, req) {
-        var _a;
         console.log(req, 'ererer');
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const user = req.user;
+        const userId = user.id;
         if (!userId) {
             throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
         }
         return this.coursesService.publishChapter(courseId, chapterId, userId);
     }
     async unpublishChapter(courseId, chapterId, req) {
-        var _a;
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const user = req.user;
+        const userId = user.id;
         if (!userId) {
             throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
         }
@@ -208,8 +232,8 @@ let CoursesController = class CoursesController {
         }
     }
     async publishCourse(id, req) {
-        var _a;
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const user = req.user;
+        const userId = user.id;
         if (!userId) {
             throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
         }
@@ -222,8 +246,8 @@ let CoursesController = class CoursesController {
         }
     }
     async unpublishCourse(courseId, req) {
-        var _a;
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const user = req.user;
+        const userId = user.id;
         if (!userId) {
             throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
         }
@@ -236,8 +260,8 @@ let CoursesController = class CoursesController {
         }
     }
     async reorderChapters(courseId, list, req) {
-        var _a;
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const user = req.user;
+        const userId = user.id;
         if (!userId) {
             throw new common_1.HttpException('Unauthorized', common_1.HttpStatus.UNAUTHORIZED);
         }

@@ -11,6 +11,7 @@ import {
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
 import { CategoryService } from './categories.service';
+import { User } from 'src/auth/interface/User';
 
 @Controller('categories-and-courses')
 @UseGuards(JwtAuthGuard)
@@ -23,7 +24,9 @@ export class CategoryController {
     @Query('title') title?: string,
     @Query('categoryId') categoryId?: string,
   ) {
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
 
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);

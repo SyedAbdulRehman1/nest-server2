@@ -125,7 +125,7 @@ export class ChaptersService {
       }
 
       let muxData = null;
-      let attachments = [];
+      let attachments: any = [];
       let nextChapter = null;
 
       if (purchase) {

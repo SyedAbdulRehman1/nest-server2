@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChapterController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
-const prisma_service_1 = require("../../prisma/prisma.service");
+const prisma_service_1 = require("src/prisma/prisma.service");
 const chapters_service_1 = require("./chapters.service");
 const update_chapter_dto_1 = require("./dto/update-chapter.dto");
 let ChapterController = class ChapterController {
@@ -27,7 +27,8 @@ let ChapterController = class ChapterController {
         return this.chaptersService.getChapterWithCompletion(courseId, chapterId);
     }
     async getChapterData(courseId, chapterId, req) {
-        const userId = req.user['id'];
+        const user = req.user;
+        const userId = user.id;
         try {
             return await this.chaptersService.getChapterData(userId, courseId, chapterId);
         }

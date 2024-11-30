@@ -34,8 +34,8 @@ export class MuxService {
       });
 
       return muxData; // Return the saved data for reference
-    } catch (error) {
-      throw new Error(`Error uploading to Mux: ${error.message}`);
+    } catch (error: any) {
+      throw new Error(`Error uploading to Mux: ${error}`);
     }
   }
 }

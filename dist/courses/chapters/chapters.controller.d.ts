@@ -9,60 +9,76 @@ export declare class ChapterController {
     getChapter(courseId: string, chapterId: string): Promise<{
         chapter: {
             muxData: {
-                chapterId: string;
                 id: string;
                 assetId: string;
-                playbackId: string;
-            };
+                playbackId: string | null;
+                chapterId: string;
+            } | null;
         } & {
-            courseId: string;
             id: string;
-            title: string;
-            description: string;
-            videoUrl: string;
-            position: number;
-            isPublished: boolean;
-            isFree: boolean;
             createdAt: Date;
             updatedAt: Date;
+            title: string;
+            description: string | null;
+            isPublished: boolean;
+            position: number;
+            videoUrl: string | null;
+            isFree: boolean;
+            courseId: string;
         };
         isComplete: boolean;
         completionText: string;
     }>;
     getChapterData(courseId: string, chapterId: string, req: Request): Promise<{
         chapter: {
-            courseId: string;
             id: string;
-            title: string;
-            description: string;
-            videoUrl: string;
-            position: number;
-            isPublished: boolean;
-            isFree: boolean;
             createdAt: Date;
             updatedAt: Date;
+            title: string;
+            description: string | null;
+            isPublished: boolean;
+            position: number;
+            videoUrl: string | null;
+            isFree: boolean;
+            courseId: string;
         };
         course: {
-            price: number;
+            price: number | null;
         };
-        muxData: any;
-        attachments: any[];
-        nextChapter: any;
-        userProgress: {
+        muxData: {
+            id: string;
+            assetId: string;
+            playbackId: string | null;
             chapterId: string;
+        } | null;
+        attachments: any;
+        nextChapter: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            title: string;
+            description: string | null;
+            isPublished: boolean;
+            position: number;
+            videoUrl: string | null;
+            isFree: boolean;
+            courseId: string;
+        } | null;
+        userProgress: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
             isCompleted: boolean;
-        };
+            chapterId: string;
+        } | null;
         purchase: {
-            courseId: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
-        };
+            courseId: string;
+        } | null;
     }>;
     updateChapter(courseId: string, chapterId: string, updateChapterDto: UpdateChapterDto, req: Request): Promise<void>;
 }

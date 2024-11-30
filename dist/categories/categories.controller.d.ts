@@ -9,31 +9,31 @@ export declare class CategoryController {
             name: string;
         }[];
         courses: {
-            progress: number;
+            progress: number | null;
             category: {
                 id: string;
                 name: string;
-            };
+            } | null;
             chapters: {
                 id: string;
             }[];
             purchases: {
                 id: string;
+                userId: string;
                 createdAt: Date;
                 updatedAt: Date;
-                userId: string;
                 courseId: string;
             }[];
             id: string;
+            title: string;
+            categoryId: string | null;
+            userId: string;
+            description: string | null;
+            imageUrl: string | null;
+            price: number | null;
+            isPublished: boolean;
             createdAt: Date;
             updatedAt: Date;
-            title: string;
-            userId: string;
-            description: string;
-            imageUrl: string;
-            price: number;
-            isPublished: boolean;
-            categoryId: string;
         }[];
     }>;
 }

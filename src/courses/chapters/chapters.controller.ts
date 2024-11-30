@@ -18,6 +18,7 @@ import { UpdateChapterDto } from './dto/update-chapter.dto';
 // import { PrismaService } from './prisma.service'; // Assuming you have a Prisma service to interact with DB
 // import { SessionService } from './session.service'; // Assuming you have a session management service
 import { Request } from 'express';
+import { User } from 'src/auth/interface/User';
 
 @Controller('chapters')
 @UseGuards(AuthGuard('jwt'))
@@ -46,7 +47,9 @@ export class ChapterController {
     // if (!session || !session.user) {
     //   throw new ForbiddenException('Unauthorized');
     // }
-    const userId = req.user['id']; // Extract userId from the request (assuming user is set in the request)
+    // const userId = req.user['id']; // Extract userId from the request (assuming user is set in the request)
+    const user = req.user as User;
+    const userId = user.id;
 
     // const userId = session.user.id;
     try {

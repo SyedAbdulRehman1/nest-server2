@@ -5,7 +5,7 @@ export declare class MuxService {
     uploadVideoToMux(videoUrl: string, chapterId: string): Promise<{
         id: string;
         assetId: string;
-        playbackId: string;
+        playbackId: string | null;
         chapterId: string;
     }>;
 }

@@ -8,5 +8,5 @@ export declare class PurchasesService {
         updatedAt: Date;
         userId: string;
         courseId: string;
-    }>;
+    } | null>;
 }

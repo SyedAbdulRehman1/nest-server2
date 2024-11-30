@@ -34,7 +34,7 @@ export class AuthController {
     try {
       const result = await this.authService.activateAccount(token);
       return { data: result, statusCode: 200 }; // Sending a success response with status code
-    } catch (error) {
+    } catch (error: any) {
       return {
         message: error.response.message,
         status: error.response.status,

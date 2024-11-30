@@ -10,6 +10,7 @@ import {
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { PurchasesService } from './purchases.service';
+import { User } from 'src/auth/interface/User';
 
 @Controller('purchases')
 @UseGuards(JwtAuthGuard)
@@ -21,7 +22,9 @@ export class PurchasesController {
     @Req() req: Request,
   ) {
     console.log(req.user, 'dfdf');
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
+    const user = req.user as User;
+    const userId = user.id;
 
     if (!userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED); // Return 401 if user not authenticated

@@ -4,12 +4,12 @@ export declare class PurchasesController {
     private readonly purchasesService;
     constructor(purchasesService: PurchasesService);
     checkPurchase(courseId: string, req: Request): Promise<{
-        purchase: any[] | {
+        purchase: {
             id: string;
+            userId: string;
             createdAt: Date;
             updatedAt: Date;
-            userId: string;
             courseId: string;
-        };
+        } | never[];
     }>;
 }

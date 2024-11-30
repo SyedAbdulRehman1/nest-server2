@@ -9,15 +9,15 @@ export declare class AuthController {
         status: string;
         user: {
             id: string;
-            name: string;
+            name: string | null;
             email: string;
-            password: string;
-            refreshToken: string;
+            password: string | null;
+            refreshToken: string | null;
             userType: import(".prisma/client").$Enums.UserType;
-            emailVerified: boolean;
-            image: string;
-            resetToken: string;
-            resetTokenExpiry: Date;
+            emailVerified: boolean | null;
+            image: string | null;
+            resetToken: string | null;
+            resetTokenExpiry: Date | null;
             role: import(".prisma/client").$Enums.UserType;
             createdAt: Date;
             updatedAt: Date;
