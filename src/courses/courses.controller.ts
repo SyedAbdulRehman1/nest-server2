@@ -29,6 +29,7 @@ import * as fs from 'fs';
 import { ChaptersService } from './chapters/chapters.service';
 import { UpdateChapterDto } from './dto/update-chapter.dto';
 import { User } from 'src/auth/interface/User';
+import { cloudinaryStorage } from 'src/services/cloudinary-storage';
 
 //   import { SessionGuard } from '../auth/session.guard'; // Custom guard for session handling
 //   import { CreateCourseDto } from './dto/create-course.dto';
@@ -229,37 +230,43 @@ export class CoursesController {
     }
   }
 
+  // @Post(':courseId/upload')
+  // @UseInterceptors(
+  //   FileInterceptor('file', {
+  //     storage: diskStorage({
+  //       destination: (req, file, cb) => {
+  //         const courseId = req.params.courseId;
+  //         let uploadPath = '';
+
+  //         if (file.mimetype.startsWith('image/')) {
+  //           uploadPath = `./uploads/images/courses/${courseId}`;
+  //         } else if (file.mimetype.startsWith('video/')) {
+  //           uploadPath = `./uploads/videos/courses/${courseId}`;
+  //         } else if (file.mimetype.startsWith('application/')) {
+  //           uploadPath = `./uploads/docs/courses/${courseId}`;
+  //         } else {
+  //           cb(new Error('Unsupported file type'), '');
+  //           return;
+  //         }
+  //         if (!fs.existsSync(uploadPath)) {
+  //           fs.mkdirSync(uploadPath, { recursive: true });
+  //         }
+
+  //         cb(null, uploadPath);
+  //       },
+  //       filename: (req, file, cb) => {
+  //         const uniqueSuffix =
+  //           Date.now() + '-' + Math.round(Math.random() * 1e9);
+  //         const ext = extname(file.originalname);
+  //         cb(null, `file-${uniqueSuffix}${ext}`);
+  //       },
+  //     }),
+  //   }),
+  // )
   @Post(':courseId/upload')
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: diskStorage({
-        destination: (req, file, cb) => {
-          const courseId = req.params.courseId;
-          let uploadPath = '';
-
-          if (file.mimetype.startsWith('image/')) {
-            uploadPath = `./uploads/images/courses/${courseId}`;
-          } else if (file.mimetype.startsWith('video/')) {
-            uploadPath = `./uploads/videos/courses/${courseId}`;
-          } else if (file.mimetype.startsWith('application/')) {
-            uploadPath = `./uploads/docs/courses/${courseId}`;
-          } else {
-            cb(new Error('Unsupported file type'), '');
-            return;
-          }
-          if (!fs.existsSync(uploadPath)) {
-            fs.mkdirSync(uploadPath, { recursive: true });
-          }
-
-          cb(null, uploadPath);
-        },
-        filename: (req, file, cb) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          cb(null, `file-${uniqueSuffix}${ext}`);
-        },
-      }),
+      storage: cloudinaryStorage,
     }),
   )
   async uploadFile(
@@ -278,9 +285,10 @@ export class CoursesController {
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
-
+    const fileUrl = file.path;
+    console.log(fileUrl, 'fileUrl');
     const cleanedFilePath = file.path.replace(/\\/g, '/'); // Replace all backslashes with forward slashes
-    const fileUrl = `/${cleanedFilePath}`;
+    // const fileUrl = `/${cleanedFilePath}`;
 
     try {
       const updatedCourse = await this.coursesService.updateCourseImage(

@@ -16,8 +16,8 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const update_user_dto_1 = require("./dto/update-user.dto");
-const register_dto_1 = require("src/auth/dto/register.dto");
-const auth_service_1 = require("src/auth/auth.service");
+const register_dto_1 = require("../auth/dto/register.dto");
+const auth_service_1 = require("../auth/auth.service");
 let UsersController = class UsersController {
     constructor(usersService, authService) {
         this.usersService = usersService;

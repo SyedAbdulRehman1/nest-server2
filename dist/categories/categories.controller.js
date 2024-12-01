@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryController = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_auth_guard_1 = require("src/auth/guards/jwt-auth.guard");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const categories_service_1 = require("./categories.service");
 let CategoryController = class CategoryController {
     constructor(CategoryService) {

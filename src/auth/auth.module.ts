@@ -12,7 +12,7 @@ import { AuthController } from './auth.controller';
   imports: [
     JwtModule.register({
       secret: 'your_secret_key',
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '604800' }, // 1 week
     }),
     PrismaModule,
   ],

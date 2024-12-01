@@ -19,21 +19,21 @@ export declare class CategoryController {
             }[];
             purchases: {
                 id: string;
-                userId: string;
                 createdAt: Date;
                 updatedAt: Date;
+                userId: string;
                 courseId: string;
             }[];
             id: string;
+            createdAt: Date;
+            updatedAt: Date;
             title: string;
-            categoryId: string | null;
             userId: string;
             description: string | null;
             imageUrl: string | null;
             price: number | null;
             isPublished: boolean;
-            createdAt: Date;
-            updatedAt: Date;
+            categoryId: string | null;
         }[];
     }>;
 }

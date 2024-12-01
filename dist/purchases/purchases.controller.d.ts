@@ -6,9 +6,9 @@ export declare class PurchasesController {
     checkPurchase(courseId: string, req: Request): Promise<{
         purchase: {
             id: string;
-            userId: string;
             createdAt: Date;
             updatedAt: Date;
+            userId: string;
             courseId: string;
         } | never[];
     }>;

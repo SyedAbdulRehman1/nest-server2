@@ -13,7 +13,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
     app.enableCors({
-      origin: process.env.FRONT_END_URL, // Adjust this if your frontend is hosted elsewhere
+      origin: ['http://localhost:3000', 'https://lms-chatbot.vercel.app'],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true,
     });

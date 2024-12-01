@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MuxService = void 0;
 const common_1 = require("@nestjs/common");
 const mux_node_1 = __importDefault(require("@mux/mux-node"));
-const prisma_service_1 = require("src/prisma/prisma.service");
+const prisma_service_1 = require("../../prisma/prisma.service");
 const { MUX_TOKEN_ID, MUX_TOKEN_SECRET } = process.env;
 const mux = new mux_node_1.default({
     tokenId: MUX_TOKEN_ID,

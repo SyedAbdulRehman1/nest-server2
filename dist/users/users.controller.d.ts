@@ -12,10 +12,10 @@ export declare class UsersController {
         message: string;
         status: string;
         user: {
-            email: string;
-            password: string | null;
             id: string;
             name: string | null;
+            email: string;
+            password: string | null;
             refreshToken: string | null;
             userType: import(".prisma/client").$Enums.UserType;
             emailVerified: boolean | null;
@@ -31,10 +31,10 @@ export declare class UsersController {
         accessToken: string;
     }>;
     update(id: string, updateUserDto: UpdateUserDto): Promise<{
-        email: string;
-        password: string | null;
         id: string;
         name: string | null;
+        email: string;
+        password: string | null;
         refreshToken: string | null;
         userType: import(".prisma/client").$Enums.UserType;
         emailVerified: boolean | null;
@@ -46,10 +46,10 @@ export declare class UsersController {
         updatedAt: Date;
     }>;
     getProfile(user: any): Promise<{
-        email: string;
-        password: string | null;
         id: string;
         name: string | null;
+        email: string;
+        password: string | null;
         refreshToken: string | null;
         userType: import(".prisma/client").$Enums.UserType;
         emailVerified: boolean | null;

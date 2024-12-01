@@ -1,32 +1,9 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
@@ -38,15 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CoursesController = void 0;
 const common_1 = require("@nestjs/common");
 const courses_service_1 = require("./courses.service");
-const multer_1 = require("multer");
 const create_course_dto_1 = require("./dto/create-course.dto");
-const jwt_auth_guard_1 = require("src/auth/guards/jwt-auth.guard");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const library_1 = require("@prisma/client/runtime/library");
-const multer_2 = require("@nestjs/platform-express/multer");
-const path_1 = require("path");
-const fs = __importStar(require("fs"));
+const multer_1 = require("@nestjs/platform-express/multer");
 const chapters_service_1 = require("./chapters/chapters.service");
 const update_chapter_dto_1 = require("./dto/update-chapter.dto");
+const cloudinary_storage_1 = require("../services/cloudinary-storage");
 let CoursesController = class CoursesController {
     constructor(coursesService, chaptersService) {
         this.coursesService = coursesService;
@@ -160,8 +135,9 @@ let CoursesController = class CoursesController {
         if (!file) {
             throw new common_1.HttpException('No file uploaded', common_1.HttpStatus.BAD_REQUEST);
         }
+        const fileUrl = file.path;
+        console.log(fileUrl, 'fileUrl');
         const cleanedFilePath = file.path.replace(/\\/g, '/');
-        const fileUrl = `/${cleanedFilePath}`;
         try {
             const updatedCourse = await this.coursesService.updateCourseImage(courseId, userId, fileUrl);
             console.log(fileUrl, 'fileee');
@@ -326,35 +302,8 @@ __decorate([
 ], CoursesController.prototype, "updateCourse", null);
 __decorate([
     (0, common_1.Post)(':courseId/upload'),
-    (0, common_1.UseInterceptors)((0, multer_2.FileInterceptor)('file', {
-        storage: (0, multer_1.diskStorage)({
-            destination: (req, file, cb) => {
-                const courseId = req.params.courseId;
-                let uploadPath = '';
-                if (file.mimetype.startsWith('image/')) {
-                    uploadPath = `./uploads/images/courses/${courseId}`;
-                }
-                else if (file.mimetype.startsWith('video/')) {
-                    uploadPath = `./uploads/videos/courses/${courseId}`;
-                }
-                else if (file.mimetype.startsWith('application/')) {
-                    uploadPath = `./uploads/docs/courses/${courseId}`;
-                }
-                else {
-                    cb(new Error('Unsupported file type'), '');
-                    return;
-                }
-                if (!fs.existsSync(uploadPath)) {
-                    fs.mkdirSync(uploadPath, { recursive: true });
-                }
-                cb(null, uploadPath);
-            },
-            filename: (req, file, cb) => {
-                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-                const ext = (0, path_1.extname)(file.originalname);
-                cb(null, `file-${uniqueSuffix}${ext}`);
-            },
-        }),
+    (0, common_1.UseInterceptors)((0, multer_1.FileInterceptor)('file', {
+        storage: cloudinary_storage_1.cloudinaryStorage,
     })),
     __param(0, (0, common_1.Param)('courseId')),
     __param(1, (0, common_1.UploadedFile)()),
